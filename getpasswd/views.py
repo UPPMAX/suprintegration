@@ -2,13 +2,14 @@ from django.shortcuts import render
 import django.http
 import ConfigParser
 import supr
-
+import time
 
 from django.template import loader, Context
 
 # Create your views here.
 
 UPPMAX_ID = 4
+SPOOL_DIR = "/var/spool/getpasswd/"
 
 cp = ConfigParser.ConfigParser()
 cp.read('/etc/supr.ini')
@@ -46,6 +47,7 @@ def back(request):
 
         d = { 'token': request.session['token'] }
 
+        del request.session['token']
         r = s.post('/centreauthentication/check/', d)
    
         account = None
@@ -55,9 +57,15 @@ def back(request):
                 account = p['username']
 
         if account:
+
+            f = open('%s/%s-%f' % (SPOOL_DIR, account, time.time()), 'w')
+            f.write('%s\n' % account)
+            f.close()
+
             return render(request, 'getpasswd/message.html', {'title': 'New password requested', 
                                                                       'message':'A new password will be sent to %s shortly.' % account })
 
+    
     except Exception:
         pass
 
