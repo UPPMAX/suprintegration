@@ -1,0 +1,20 @@
+{% extends "bootstrapotp/base.html" %}
+
+{% block content %}
+<p>
+{{ message }}
+</p>
+<p>
+Please scan the code in the application of your choice, accept it and enter the current code to verify that it has been added properly.
+</p>
+<img src="/bootstrapotp/image" alt="QR Code, you want to see it." />
+<p>
+<form action="/bootstrapotp/finish" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+</p>
+{% endblock %}
+
+    
