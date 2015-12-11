@@ -28,7 +28,7 @@ cp.read('/etc/supr.ini')
 
 ctab = [ unichr(x) for x in range(48,127)]
 
-
+SPOOL_DIR = "/var/spool/bootstrapotp/"
 
 # Utitlity functions
 # Some code taken from
@@ -166,9 +166,21 @@ def finish(request):
                                                                    'form': totpForm() })
 
 
+
+    try:
+        f = open('%s/%s-%f' % (SPOOL_DIR, account, time.time()), 'w')
+        f.write('%s %s\n' % (account, request.session['secret']))
+        f.close()
+    except:
+        return render(request, 'bootstrapotp/base.html', 
+                      {'title': 'OTP token registration failed', 
+                       'message':'Thanks for verifying, unfortunately, ' +
+                    'we could not record your token. Please retry later.' })
+
     del request.session['secret']
 
-
-    return render(request, 'bootstrapotp/base.html', {'title': 'OTP token registered', 
-                                                         'message':'Thanks for verifying, your OTP token will be registered.' })
+    return render(request, 'bootstrapotp/base.html', 
+                  {'title': 'OTP token registered', 
+                   'message':'Thanks for verifying, ' +
+                   'your OTP token will be registered.' })
     
