@@ -31,6 +31,8 @@ ctab = [ unichr(x) for x in range(48,127)]
 
 SPOOL_DIR = "/var/spool/bootstrapotp/"
 
+LOGGER_NAME = "bootstrapotp"
+
 # Utitlity functions
 # Some code taken from
 # http://stackoverflow.com/questions/8529265/google-authenticator-implementation-in-python
@@ -181,7 +183,7 @@ def finish(request):
 
     del request.session['secret']
 
-    logging.getLogger(__name__).info("New OTP registered for user %s" % (account))
+    logging.getLogger(LOGGER_NAME).info("New OTP registered for user %s" % (account))
 
     return render(request, 'bootstrapotp/base.html', 
                   {'title': 'OTP token registered', 
