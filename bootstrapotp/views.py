@@ -136,7 +136,7 @@ def image(request):
     if not 'start' in request.session.keys() or time.time()-request.session['start'] > TIMEOUT:
         return django.http.HttpResponseRedirect('/bootstrapotp/')
 
-    if not 'secret' in request.session.keys():
+    if not 'secret' in request.session.keys() or not 'account' in request.session.keys():
         return django.http.HttpResponseRedirect('/bootstrapotp/')
 
     urlsecret = request.session['secret']
@@ -155,8 +155,10 @@ def finish(request):
     if not 'start' in request.session.keys() or time.time()-request.session['start'] > TIMEOUT:
         return django.http.HttpResponseRedirect('/bootstrapotp/')
 
-    if not 'secret' in request.session.keys():
+    if not 'secret' in request.session.keys() or not 'account' in request.session.keys():
         return django.http.HttpResponseRedirect('/bootstrapotp/')
+
+    account = request.session['account']
 
     totp = totpForm(request.POST)
 
