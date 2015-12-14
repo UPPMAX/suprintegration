@@ -13,6 +13,7 @@ import qrcode.image.svg
 
 import hmac, base64, struct, hashlib, time
 
+import logging
 
 UPPMAX_ID = 4
 TOKEN_LEN = 70
@@ -34,6 +35,8 @@ SPOOL_DIR = "/var/spool/bootstrapotp/"
 # Some code taken from
 # http://stackoverflow.com/questions/8529265/google-authenticator-implementation-in-python
 #
+
+
 
 def get_hotp_token(secret, intervals_no):
     key = base64.b32decode(secret, True)
@@ -71,7 +74,6 @@ def index(request):
           }
 
         r = s.post('/centreauthentication/initiate/', d)
-
     
         request.session['token'] = r['token']
         request.session['start'] = int(time.time())
@@ -93,7 +95,7 @@ def back(request):
     if not 'start' in request.session.keys() or time.time()-request.session['start'] > TIMEOUT:
         return django.http.HttpResponseRedirect('/bootstrapotp/')
 
-    if 1: #try:
+    try:
 
         s = supr.SUPR(cp.get('SUPR','user'),
                       cp.get('SUPR','password'),
@@ -121,7 +123,7 @@ def back(request):
                                                                        'message':'',
                                                                        'form': totpForm() })
 
-    if 0: #except Exception:
+    except Exception:
         pass
 
     return render(request, 'bootstrapotp/base.html', {'title': 'An error occured',                                                                                                            
@@ -178,6 +180,8 @@ def finish(request):
                     'we could not record your token. Please retry later.' })
 
     del request.session['secret']
+
+    logging.getLogger(__name__).info("New OTP registered for user %s" % (account))
 
     return render(request, 'bootstrapotp/base.html', 
                   {'title': 'OTP token registered', 
