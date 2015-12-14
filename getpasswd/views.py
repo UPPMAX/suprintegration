@@ -10,12 +10,14 @@ from django.template import loader, Context
 
 UPPMAX_ID = 4
 SPOOL_DIR = "/var/spool/getpasswd/"
+TIMEOUT = 300
 
 cp = ConfigParser.ConfigParser()
 cp.read('/etc/supr.ini')
 
 def index(request):
     
+    request.session['start'] = time.time()
     try:
         s = supr.SUPR(cp.get('SUPR','user'),
                       cp.get('SUPR','password'),
@@ -30,12 +32,16 @@ def index(request):
     
         request.session['token'] = r['token']   
 
+
         return django.http.HttpResponseRedirect(r['authentication_url'])
     except Exception,p:
         return render(request, 'getpasswd/message.html', {'title': 'An error occured',                                                                                                            
                                                          'message':'An error occured during the password request, please retry.'})
 
 def back(request):
+
+    if not 'start' in request.session.keys() or time.time()-request.session['start'] > TIMEOUT:
+        return django.http.HttpResponseRedirect('/getpasswd/')
 
     try:
         s = supr.SUPR(cp.get('SUPR','user'),
@@ -63,7 +69,7 @@ def back(request):
             f.close()
 
             return render(request, 'getpasswd/message.html', {'title': 'New password requested', 
-                                                                      'message':'A new password will be sent to %s shortly.' % account })
+                                                              'message':'A new password will be sent to %s shortly.' % account })
 
     
     except Exception:
