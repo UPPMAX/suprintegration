@@ -3,6 +3,7 @@ import django.http
 import ConfigParser
 import supr
 import time
+import logging
 
 from django.template import loader, Context
 
@@ -14,6 +15,8 @@ TIMEOUT = 300
 
 cp = ConfigParser.ConfigParser()
 cp.read('/etc/supr.ini')
+
+
 
 def index(request):
     
@@ -68,9 +71,12 @@ def back(request):
             f.write('%s\n' % account)
             f.close()
 
+            logging.getLogger(__name__).info("New password requested for user %s" % (account))
+
             return render(request, 'getpasswd/message.html', {'title': 'New password requested', 
                                                               'message':'A new password will be sent to %s shortly.' % account })
 
+        syslog.syslog(syslog.LOG_INFO, "New password requested for supr id %d but no local account found." % (r['person']['id']))
         return render(request, 'getpasswd/message.html', 
                       {'title': 'No user found in SUPR', 
                        'message':'We looked as best we could, but we '  +
