@@ -71,6 +71,15 @@ def back(request):
             return render(request, 'getpasswd/message.html', {'title': 'New password requested', 
                                                               'message':'A new password will be sent to %s shortly.' % account })
 
+        return render(request, 'getpasswd/message.html', 
+                      {'title': 'No user found in SUPR', 
+                       'message':'We looked as best we could, but we '  +
+                       'could not find an UPPMAX user corresponding to '+ 
+                       'your SUPR identity. Please contact support@uppmax.uu.se ' +
+                       'and ask that they link your UPPMAX account to your SUPR ' +
+                       'identity.'
+
+                    
     
     except Exception:
         pass
