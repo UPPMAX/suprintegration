@@ -12,6 +12,7 @@ from django.template import loader, Context
 UPPMAX_ID = 4
 SPOOL_DIR = "/var/spool/getpasswd/"
 TIMEOUT = 300
+LOGGER_NAME = "getpasswd"
 
 cp = ConfigParser.ConfigParser()
 cp.read('/etc/supr.ini')
@@ -71,7 +72,7 @@ def back(request):
             f.write('%s\n' % account)
             f.close()
 
-            logging.getLogger(__name__).info("New password requested for user %s" % (account))
+            logging.getLogger(LOGGER_NAME).info("New password requested for user %s" % (account))
 
             return render(request, 'getpasswd/message.html', {'title': 'New password requested', 
                                                               'message':'A new password will be sent to %s shortly.' % account })
