@@ -78,8 +78,8 @@ def back(request):
                        'your SUPR identity. Please contact support@uppmax.uu.se ' +
                        'and ask that they link your UPPMAX account to your SUPR ' +
                        'identity.'
-
-                    
+                   })
+                   
     
     except Exception:
         pass
