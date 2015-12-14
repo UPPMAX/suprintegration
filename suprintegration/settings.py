@@ -29,6 +29,40 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'SysLog': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.SysLogHandler',
+            'facility': 'local5',
+            'address': '/dev/log',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/djangodebug.log',
+        },
+    },
+    'loggers': {
+        'getpasswd': {
+            'handlers': ['SysLog'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'bootstrapotp': {
+            'handlers': ['SysLog'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+
+
+    },
+
+}
+
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates/'),
 )
