@@ -89,7 +89,7 @@ def back(request):
                    
     
     except Exception:
-        pass
+        logging.getLogger(LOGGER_NAME).error("Failure while finishing password request, this is what we know: %s" % ( str(request.session)))
 
     return render(request, 'getpasswd/message.html', {'title': 'An error occured',                                                                                                            
                                                           'message':'An error occured during the password request, please retry.'})
