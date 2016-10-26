@@ -141,7 +141,7 @@ def image(request):
 
     urlsecret = request.session['secret']
     account = request.session['account']
-    url = "otpauth://totp/%s@SNIC-SENS?secret=%s&issuer=UPPMAX" % (account, urlsecret)
+    url = "otpauth://totp/%s@UPPMAX?secret=%s&issuer=UPPMAX" % (account, urlsecret)
   
     img = qrcode.make(url, image_factory=qrcode.image.svg.SvgImage)        
 
