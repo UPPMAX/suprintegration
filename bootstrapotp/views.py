@@ -61,10 +61,10 @@ def verify_totp_token(secret, window, given_token):
   return False
 
 
+def landing(request):
+    return render(request, 'bootstrapotp/landing.html')
 
-
-
-def index(request):
+def sendtosupr(request):
     
     try:
         s = supr.SUPR(cp.get('SUPR','user'),
@@ -141,7 +141,7 @@ def image(request):
 
     urlsecret = request.session['secret']
     account = request.session['account']
-    url = "otpauth://totp/%s@SNIC-SENS?secret=%s&issuer=UPPMAX" % (account, urlsecret)
+    url = "otpauth://totp/%s@UPPMAX?secret=%s&issuer=UPPMAX" % (account, urlsecret)
   
     img = qrcode.make(url, image_factory=qrcode.image.svg.SvgImage)        
 
