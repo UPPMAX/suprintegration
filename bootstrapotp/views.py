@@ -16,7 +16,7 @@ import hmac, base64, struct, hashlib, time
 import logging
 
 UPPMAX_ID = 4
-TOKEN_LEN = 70
+TOKEN_LEN = 25
 
 # How long may a session be open?
 TIMEOUT = 300
