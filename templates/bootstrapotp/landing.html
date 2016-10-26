@@ -1,0 +1,21 @@
+{% extends "bootstrapotp/base.html" %}
+
+{% block content %}
+<p>
+</p>
+<p>
+  Here you can request a second factor for your UPPMAX account.
+</p>
+<p>
+  In case of any problems, please contact UPPMAX support
+  at <a href="mailto:support@uppmax.uu.se">support@uppmax.uu.se</a>.
+ </p>
+<p>
+<form action="/bootstrapotp/sendtosupr" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Continue" />
+</form>
+</p>
+{% endblock %}
+
+    

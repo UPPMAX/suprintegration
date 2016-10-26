@@ -61,10 +61,10 @@ def verify_totp_token(secret, window, given_token):
   return False
 
 
+def landing(request):
+    return render(request, 'bootstrapotp/landing.html')
 
-
-
-def index(request):
+def sendtosupr(request):
     
     try:
         s = supr.SUPR(cp.get('SUPR','user'),
