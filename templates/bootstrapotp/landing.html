@@ -11,6 +11,10 @@
   at <a href="mailto:support@uppmax.uu.se">support@uppmax.uu.se</a>.
  </p>
 <p>
+  Next you will be sent to SUPR to authenticate, please log in and
+  click through and you will be sent back and given a token.
+</p>
+<p>
 <form action="/bootstrapotp/sendtosupr" method="post">
     {% csrf_token %}
     <input type="submit" value="Continue" />
