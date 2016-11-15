@@ -87,7 +87,7 @@ def sendtosupr(request):
 
 
 class totpForm( django.forms.Form ):
-    code = django.forms.IntegerField(widget=django.forms.TextInput, max_value=int(1e7))
+    code = django.forms.IntegerField(widget=django.forms.widgets.NumberInput(attrs={'type':'number','pattern':'[0-9][0-9][0-9][0-9][0-9][0-9]','inputmode':'numeric'}), max_value=int(1e7))
 
 def back(request):
 
