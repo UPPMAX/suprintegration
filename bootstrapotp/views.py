@@ -190,5 +190,5 @@ def finish(request):
     return render(request, 'bootstrapotp/base.html', 
                   {'title': 'OTP token registered', 
                    'message':'Thanks for verifying, ' +
-                   'your OTP token will be registered.' })
+                   'your OTP token has been registered and will be activated soon.' })
     
