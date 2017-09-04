@@ -63,7 +63,8 @@ def back(request):
         account = None
         
         for p in r['person']['accounts']:
-            if p['resource']['centre']['id'] == 4:
+            # Look for rackham account for now
+            if p['resource']['id'] == 51:
                 account = p['username']
 
         if account:
