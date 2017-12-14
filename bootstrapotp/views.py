@@ -125,7 +125,10 @@ def back(request):
             return render(request, 'bootstrapotp/showandverify.html', {'title': 'TOTP ', 
                                                                        'message':'',
                                                                        'form': totpForm() })
-
+        else:
+            return render(request, 'bootstrapotp/base.html', {'title': 'No UPPMAX account found',                                                                                                            
+                                                            'message':'We could not find any UPPMAX account for you, do you need to make an account request?'})
+            
     except Exception:
         pass
 
